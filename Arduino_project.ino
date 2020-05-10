@@ -1,3 +1,10 @@
+//    FILE: Arduino_project.ino
+//  AUTHOR: Andro Slavic
+// VERSION: 0.1.0
+//    DATE: 2020-05-10
+//     
+// Released to the public domain
+
 
 // High voltage time on output pins in miliseconds
 int timeLimit = 10000;
