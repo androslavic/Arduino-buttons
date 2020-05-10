@@ -1,23 +1,13 @@
-/*
-
- * 
- * 
- */
-
-
-
-
 #include <printf.h>
 #include "Timer.h"
 
 
 
 
-// vrijeme visokog napona na izlazu u milisekundama
+// High voltage time on output pins in miliseconds
 int timeLimit = 10000;
 
-// vrijeme odziva tipke u milisekundama
-int timeResponse = 150;
+
 
 
 
@@ -44,7 +34,7 @@ struct parameters{
 
 
 
-// dodati strukture za nove parametre    (**1**)
+// add NEW structure for a new input-output pair   (**1**)
 struct parameters slave1,slave2,slave3,slave4,master;
 bool masterLock=0;
 
@@ -56,9 +46,10 @@ void setup() {
 
 /*                     SETUP
  * 
- * Setup funkcija služi za postavljanje parametara, odnosno
- * ulaznih i izlaznih pinova. Da bi se dodali novi parametri,
- * prvo treba inicijalizirati strukturu GORE pod (**1**). 
+ * Setup function - used for setting parameters.
+ * To add a new input-output pair, first initialize
+ * a NEW structure (**1**) and add it to function
+ * call at (**2**)
  * 
  */
   Serial.begin(9600);
@@ -101,6 +92,8 @@ void loop() {
 void func()
 
 {
+  // (**2**)
+  
   function(&slave1);
   function(&slave2);
   function(&slave3);
@@ -114,8 +107,6 @@ void function(struct parameters *arg)
 {   
     
     struct parameters s;
-   
-    // promjeni strukturu ovdje i DOLE
     s=*arg;
 
     if (s.start)
@@ -128,9 +119,7 @@ void function(struct parameters *arg)
       digitalWrite(s.output2, HIGH); 
       s.StartTime1 = millis();
       s.StartTime2 = millis();
-      s.start=0;
-      printf("slaveFunc: s.output1: %d , s.output2: %d  ",s.output1,s.output2);   
-      printf("s.input1: %d , s.input2: %d \r\n",s.input1,s.input2);   
+      s.start=0; 
     }
 
 
@@ -205,7 +194,6 @@ void function(struct parameters *arg)
         if (s.motorUpRunning)  {digitalWrite(s.output2, HIGH);}else{digitalWrite(s.output2, LOW);}    
     }
     
-        // promjeni strukturu ovdje i GORE
-        *arg=s;
+    *arg=s;
   
 }    
