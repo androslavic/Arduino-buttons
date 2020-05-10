@@ -1,12 +1,6 @@
-#include <printf.h>
-#include "Timer.h"
-
-
-
 
 // High voltage time on output pins in miliseconds
 int timeLimit = 10000;
-
 
 
 
@@ -39,20 +33,17 @@ struct parameters slave1,slave2,slave3,slave4,master;
 bool masterLock=0;
 
 
-Timer timer;
 
 void setup() {
-
 
 /*                     SETUP
  * 
  * Setup function - used for setting parameters.
  * To add a new input-output pair, first initialize
  * a NEW structure (**1**) and add it to function
- * call at (**2**)
+ * call at loop() function
  * 
  */
-  Serial.begin(9600);
   slave1.input1=2;
   slave1.input2=3;
   slave1.output1=5;
@@ -77,36 +68,28 @@ void setup() {
   master.type='m';
 
   
-  int tickEvent1 = timer.every(50, func);
 
 
 }
 
 void loop() {
-  
-  timer.update();
 
-
-}
-
-void func()
-
-{
-  // (**2**)
-  
   function(&slave1);
   function(&slave2);
   function(&slave3);
   function(&master);
+  delay(50);
 
-  
 }
+
+
 
 
 void function(struct parameters *arg)
 {   
     
     struct parameters s;
+   
     s=*arg;
 
     if (s.start)
@@ -119,7 +102,7 @@ void function(struct parameters *arg)
       digitalWrite(s.output2, HIGH); 
       s.StartTime1 = millis();
       s.StartTime2 = millis();
-      s.start=0; 
+      s.start=0;
     }
 
 
@@ -144,7 +127,6 @@ void function(struct parameters *arg)
          else                      s.motorUpRunning=1;
          
          s.StartTime1 = millis();
-         printf("slaveFunc: Pressed button 1 on %d!\n",s.input1);
        }
         s.button1wasPressed=1;
           if(s.type=='m')
@@ -164,7 +146,6 @@ void function(struct parameters *arg)
          else                        s.motorDownRunning=1;
          
          s.StartTime2 = millis();
-         printf("slaveFunc: Pressed button 2 on %d!\n",s.input2);
        }  
 
         s.button2wasPressed=1;
@@ -194,6 +175,6 @@ void function(struct parameters *arg)
         if (s.motorUpRunning)  {digitalWrite(s.output2, HIGH);}else{digitalWrite(s.output2, LOW);}    
     }
     
-    *arg=s;
+        *arg=s;
   
 }    
