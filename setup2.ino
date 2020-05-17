@@ -69,9 +69,9 @@ void setup() {
   }
 
 
-  int tickEvent = t.every(100, printValue);
-  int tickEvent2 = t.every(100, stateUpdate);
-  int tickEvent3 = t.every(10, testUpdate);
+  int tickEvent = t.every(200, printValue);
+  int tickEvent2 = t.every(200, stateUpdate);
+//  int tickEvent3 = t.every(10, testUpdate);
   Serial.begin(9600);
 }
 
@@ -89,8 +89,8 @@ void loop() {
 
 void printValue(){
 
-   // printf("Values [%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d] [%d]\r\n",tablica[1][1],tablica[2][1],tablica[3][1],tablica[4][1],tablica[5][1],tablica[6][1],tablica[7][1],tablica[8][1],tablica[9][1]);
-    printf("Value [%d] smjer [%d] lampa [%d] \r\n",tablica[1][1],slave[1].smjer,tablica[1][0]);
+   printf(" [%2d] [%2d] [%2d] [%2d] [%2d] [%2d] [%2d] [%2d] ",tablica[1][1],tablica[1][0],tablica[2][1],tablica[2][0],tablica[3][1],tablica[3][0],tablica[4][1],tablica[4][0]);
+   printf(" [%2d] [%2d] [%2d] [%2d] [%2d] [%2d] [%2d] [%2d] \n",tablica[5][1],tablica[5][0],tablica[6][1],tablica[6][0],tablica[7][1],tablica[7][0],tablica[8][1],tablica[8][0]);
 }
 
   
