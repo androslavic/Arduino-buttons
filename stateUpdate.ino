@@ -11,6 +11,7 @@ void stateUpdate(){
   function(&slave[8]);
   function(&slave[9]);
 
+
   masterUpdate();
 
   }
