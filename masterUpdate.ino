@@ -3,7 +3,7 @@ void masterUpdate(void){
 
   if (tablica[0][0]==0)
      for (i=1;i<10;i++)
-        if (tablica[i][0]==0) digitalWrite(slave[i].output, LOW);   else digitalWrite(slave[i].output, HIGH);        
+        if (tablica[i][0]==0) digitalWrite(slave[i].output, LOW);        
   else
      for (i=1;i<10;i++)
         digitalWrite(slave[i].output, LOW);              
