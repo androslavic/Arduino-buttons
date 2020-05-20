@@ -4,6 +4,9 @@
 
 void setup() {
 
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), interruptFunction, RISING); 
+
   init(&slave[1],A0,11,1);
   init(&slave[2],A2,9,2);
   init(&slave[3],A4,7,3);
@@ -12,15 +15,11 @@ void setup() {
   init(&slave[6],A3,8,6);
   init(&slave[7],A5,6,7);
   init(&slave[8],A7,4,8);
-  init(&slave[9],13,3,9);
   init(&master,12,2,0);
 
-  int tickEvent = t.every(2000, printValue);
+  int tickEvent = t.every(100, printValue);
   int tickEvent2 = t.every(1, stateUpdate);
 
-
- // used for testing
- // int tickEvent3 = t.every(10, testUpdate);
   Serial.begin(9600);
 }
 

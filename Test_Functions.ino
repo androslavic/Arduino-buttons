@@ -19,11 +19,11 @@ void testUpdate()
 void printValue(){
 
   //printf("tablica[0][0] = %d",tablica[0][0]);
-  printf("%d %d %d %d %d %d %d %d %d ",
-  tablica[9][1],tablica[1][1],tablica[5][1],tablica[2][1],tablica[6][1],tablica[3][1],tablica[7][1],tablica[4][1],
-  tablica[8][1]);
-  printf("%d %d %d %d %d %d %d %d %d \n",
-  tablica[9][0],tablica[1][0],tablica[5][0],tablica[2][0],tablica[6][0],tablica[3][0],tablica[7][0],tablica[4][0],
+  printf("%d %d %d %d %d %d %d %d ",
+  tablica[1][1],tablica[5][1],tablica[2][1],tablica[6][1],tablica[3][1],tablica[7][1],tablica[4][1],
+  tablica[8][1]);   
+  printf("%d %d %d %d %d %d %d %d \n",
+  tablica[1][0],tablica[5][0],tablica[2][0],tablica[6][0],tablica[3][0],tablica[7][0],tablica[4][0],
   tablica[8][0]);
   
 //  printf("%4d%2d%4d%2d%4d%2d%4d%2d%4d%2d%4d%2d%4d%2d%4d%2d ",

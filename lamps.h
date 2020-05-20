@@ -2,13 +2,16 @@
 #include "printf.h"
 
 #define resolution 999
+#define timeFactor 10
 
-#define slaveNumber 9
+// timeFactor * resolution -> 10ms
+
+#define slaveNumber 8
 #define shortClickTime 150
 
 const byte interruptPin = 3;
 volatile byte interrupt = 0;
-volatile int interruptTime=0;
+int interruptTime=0;
 
 
 Timer t;  
@@ -25,7 +28,7 @@ struct parameters{
   int clickedTime=0;
   int currentTime=0;
   int timeCheck=0;
-  
+  int interruptTime=0;  
   };
 
 int tablica[10][2]={0};

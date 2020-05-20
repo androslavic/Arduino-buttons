@@ -35,7 +35,11 @@ void tableUpdate(struct parameters *arg){
         // if master is active, reset all states and turn on selected 
         else if (tablica[0][0]==1)
         {
-          for (i=1;i<10;i++) tablica[i][0]= 0;
+          for (i=1;i<10;i++) 
+          {
+            tablica[i][0]= 0;
+            tablica[i][1]= 0;
+          }
           tablica[0][0]= 0;
           tablica[arg->number][0]=1;  
           tablica[arg->number][1]=resolution;

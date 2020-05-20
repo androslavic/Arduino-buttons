@@ -5,9 +5,29 @@ void slaveUpdate(void){
         if (tablica[i][0]==0) digitalWrite(slave[i].output, LOW);   
           else 
           {
-            digitalWrite(slave[i].output, HIGH);        
-            slave[i].value=tablica[i][1];
-          }
-          // implementation of timer and pulse needed
+            if (interrupt)
+            {
+              interrupt=0;
+              interruptTime=millis();
 
+            }
+            // for each slave, check if time has passed to turn in on
+            for (i=1;i<=slaveNumber;i++)  
+            {
+            // interrupt happens every 10ms
+            // output is triggered after X ms
+            // X is inversely proportional to tablica[i][1] value
+  
+              if (millis()-interruptTime > (resolution - tablica[i][1])*timeFactor)
+              {
+                if (tablica[i][0]==1)
+                  digitalWrite(slave[i].output, HIGH);  
+                else      
+                  digitalWrite(slave[i].output, LOW);  
+              }
+
+              
+           }
+          }
+          
 }
