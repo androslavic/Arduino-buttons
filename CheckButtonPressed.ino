@@ -25,17 +25,20 @@ void CheckButtonPressed(struct parameters *arg)
         arg->timeCheck=0;
         if (arg->currentTime-arg->clickedTime<shortClickTime && arg->number!=0)
         {
-         if  (tablica[arg->number][0]=1 && tablica[arg->number][1]!=resolution) 
-             {
-              tablica[arg->number][0]=0;
-              tablica[arg->number][1]=0;          
-              if (arg->smjer==0) arg->smjer=1; else arg->smjer=0;
-             }
-         else 
+         if ( tablica[arg->number][1]<shortClickTime) 
              {
               tablica[arg->number][0]=1;
               tablica[arg->number][1]=resolution;          
+              arg->smjer=0;          
              }
+         else if  (tablica[arg->number][1]>shortClickTime) 
+             {
+              tablica[arg->number][0]=0;
+              tablica[arg->number][1]=0;          
+               arg->smjer=1; 
+             }
+
+
         }
         
       }

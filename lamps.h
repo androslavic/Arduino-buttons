@@ -6,6 +6,11 @@
 #define slaveNumber 9
 #define shortClickTime 150
 
+const byte interruptPin = 3;
+volatile byte interrupt = 0;
+volatile int interruptTime=0;
+
+
 Timer t;  
 int i;                             
 

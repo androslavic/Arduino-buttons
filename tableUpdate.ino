@@ -14,7 +14,6 @@ void tableUpdate(struct parameters *arg){
              if (tablica[arg->number][0]==0)
              {
               tablica[arg->number][0]=1; 
-              tablica[arg->number][1]=resolution;
               arg->smjer=1;
 
              }
