@@ -17,9 +17,9 @@ void setup() {
   init(&slave[8],A7,4,8);
   init(&master,12,2,0);
 
-  int tickEvent = t.every(100, printValue);
+ // int tickEvent = t.every(100, printValue2);
   int tickEvent2 = t.every(1, stateUpdate);
-  int tickEvent3 = t.every(10, interruptFunction);
+  int tickEvent3 = t.every(simulationFrequency, interruptFunction);
 
   Serial.begin(9600);
 }
