@@ -11,14 +11,15 @@ void slaveUpdate(void){
               interruptTime=millis();
 
             }
+            currentTime=millis();
             // for each slave, check if time has passed to turn in on
             for (i=1;i<=slaveNumber;i++)  
             {
             // interrupt happens every 10ms
             // output is triggered after X ms
             // X is inversely proportional to tablica[i][1] value
-  
-              if (millis()-interruptTime > (resolution - tablica[i][1])*timeFactor)
+
+              if (abs(currentTime-interruptTime) > (resolution - tablica[i][1])*timeFactor)
               {
                 if (tablica[i][0]==1)
                   digitalWrite(slave[i].output, HIGH);  

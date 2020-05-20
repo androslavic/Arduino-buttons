@@ -31,4 +31,8 @@ void printValue(){
 //  tablica[5][1],tablica[5][0],tablica[6][1],tablica[6][0],tablica[7][1],tablica[7][0],tablica[8][1],tablica[8][0]);
 }
 
-  
+
+void printValue2(){
+
+  printf("Millis:%d int:%d diff:%d \n ",millis(),interruptTime,millis()-interruptTime);
+}

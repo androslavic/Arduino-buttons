@@ -2,7 +2,9 @@
 #include "printf.h"
 
 #define resolution 999
-#define timeFactor 10
+#define timeFactor 0.01
+#define simulationFrequency 10
+// for 50Hz is 1000/50/2
 
 // timeFactor * resolution -> 10ms
 
@@ -12,6 +14,11 @@
 const byte interruptPin = 3;
 volatile byte interrupt = 0;
 int interruptTime=0;
+int currentTime=0;
+
+extern unsigned long timer0_overflow_count;
+
+
 
 
 Timer t;  
