@@ -5,6 +5,7 @@
 // High voltage time on output pins in miliseconds
 int timeLimit = 5;
 
+
 int cnt=0;
 int sec=0;
 int state=0;
@@ -210,6 +211,7 @@ void function(struct parameters *arg)
             masterLock=0;
           }
     if (!masterLock) 
+
     {
         if (s.motorDownRunning){digitalWrite(s.output1, HIGH);}else{digitalWrite(s.output1, LOW);}
         if (s.motorUpRunning)  {digitalWrite(s.output2, HIGH);}else{digitalWrite(s.output2, LOW);}    
