@@ -1,14 +1,17 @@
 
+
 #include "printf.h"
 
 
-// High voltage time on output pins in miliseconds
-int timeLimit = 10000;
+int timeLimit = 7;
+
 
 
 
 
 //////////////////////////////////////////////////////////////////////
+int cnt=0;
+int sec=0;
 
 struct parameters{
   int input1;
@@ -80,6 +83,17 @@ void setup() {
 
 
 }
+void timeFunction (){
+
+    delay(50);
+    cnt++;
+    if (cnt%20==0){
+    sec++;
+  
+          printf("sec: %2d\r\n",sec);
+
+    }
+  }
 
 
 void loop() {
@@ -89,7 +103,7 @@ void loop() {
   function(&slave3);
   function(&slave4);
   function(&master);
-  delay(50);
+  timeFunction();
 
   
 
@@ -113,8 +127,8 @@ void function(struct parameters *arg)
       pinMode(s.input2, INPUT);   
       digitalWrite(s.output1, LOW);   
       digitalWrite(s.output2, LOW); 
-      s.StartTime1 = millis();
-      s.StartTime2 = millis();
+      s.StartTime1 = sec;
+      s.StartTime2 = sec;
       s.start=0;
     }
 
@@ -129,7 +143,7 @@ void function(struct parameters *arg)
       s.button2 = !(analogRead(s.input2)>500);        
       }
       
-    s.CurrentTime = millis();
+    s.CurrentTime = sec;
     s.ElapsedTime1 = s.CurrentTime - s.StartTime1;
     s.ElapsedTime2 = s.CurrentTime - s.StartTime2;
     if(s.ElapsedTime1>timeLimit) s.motorUpRunning=0;  
@@ -137,7 +151,7 @@ void function(struct parameters *arg)
     
     if (s.button1)
     {
-         s.StartTime1 = millis();
+         s.StartTime1 = sec;
        
        if(!s.button1wasPressed)
        {
@@ -162,7 +176,7 @@ void function(struct parameters *arg)
     }else s.button1wasPressed=0;
     if (s.button2)
     {       
-         s.StartTime2 = millis();
+         s.StartTime2 = sec;
 
        if(!s.button2wasPressed)
        {
