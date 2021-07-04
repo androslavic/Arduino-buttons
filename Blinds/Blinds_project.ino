@@ -3,9 +3,11 @@
 
 
 // High voltage time on output pins in miliseconds
-int timeLimit = 10000;
+int timeLimit = 5;
 
-
+int cnt=0;
+int sec=0;
+int state=0;
 
 
 //////////////////////////////////////////////////////////////////////
@@ -81,6 +83,14 @@ void setup() {
 
 }
 
+void timeFunction (){
+
+    delay(50);
+    cnt++;
+    if (cnt%20==0)
+    sec++;
+  }
+
 
 void loop() {
 
@@ -89,8 +99,9 @@ void loop() {
   function(&slave3);
   function(&slave4);
   function(&master);
-  delay(50);
-
+  timeFunction();
+  
+  
   
 
 }
@@ -113,8 +124,8 @@ void function(struct parameters *arg)
       pinMode(s.input2, INPUT);   
       digitalWrite(s.output1, LOW);   
       digitalWrite(s.output2, LOW); 
-      s.StartTime1 = millis();
-      s.StartTime2 = millis();
+      s.StartTime1 = sec;
+      s.StartTime2 = sec;
       s.start=0;
     }
 
@@ -129,15 +140,15 @@ void function(struct parameters *arg)
       s.button2 = !(analogRead(s.input2)>500);        
       }
       
-    s.CurrentTime = millis();
+    s.CurrentTime = sec;
     s.ElapsedTime1 = s.CurrentTime - s.StartTime1;
     s.ElapsedTime2 = s.CurrentTime - s.StartTime2;
-    if(s.ElapsedTime1>timeLimit) s.motorUpRunning=0;  
-    if(s.ElapsedTime2>timeLimit) s.motorDownRunning=0;
+    if(s.ElapsedTime1>timeLimit) {s.motorUpRunning=0;  state=0;}
+    if(s.ElapsedTime2>timeLimit) {s.motorDownRunning=0; state=0;}
     
     if (s.button1)
     {
-         s.StartTime1 = millis();
+         s.StartTime1 = sec;
        
        if(!s.button1wasPressed)
        {
@@ -145,6 +156,11 @@ void function(struct parameters *arg)
          else if(s.motorUpRunning) s.motorUpRunning=0;
          else                      s.motorUpRunning=1;
         printf("Button %d has been pressed!\n",s.input1);
+         if(s.type=='m'){
+           if (state==1) state=0; 
+           else if (state==0) state=1; 
+           if (state==2) state=0; 
+          }
          
        }
         s.button1wasPressed=1;
@@ -162,7 +178,7 @@ void function(struct parameters *arg)
     }else s.button1wasPressed=0;
     if (s.button2)
     {       
-         s.StartTime2 = millis();
+         s.StartTime2 = sec;
 
        if(!s.button2wasPressed)
        {
@@ -170,7 +186,10 @@ void function(struct parameters *arg)
          else if(s.motorDownRunning) s.motorDownRunning=0;
          else                        s.motorDownRunning=1;
         printf("Button %d has been pressed!\n",s.input2);
-           
+        if(s.type=='m') {
+           if (state==0) state=2;
+           if (state==1) state=0; 
+        }           
        }  
 
         s.button2wasPressed=1;
@@ -190,23 +209,43 @@ void function(struct parameters *arg)
           {
             masterLock=0;
           }
-
-    if(s.type=='m' && (s.button2wasPressed || s.button1wasPressed))
-    {
-        if (s.motorDownRunning){digitalWrite(slave1.output1, HIGH);slave1.motorDownRunning=1;}else{digitalWrite(slave1.output1, LOW);slave1.motorDownRunning=0;}
-        if (s.motorUpRunning)  {digitalWrite(slave1.output2, HIGH);slave1.motorUpRunning=1;}else{digitalWrite(slave1.output2, LOW);slave1.motorUpRunning=0;}  
-        if (s.motorDownRunning){digitalWrite(slave2.output1, HIGH);slave2.motorDownRunning=1;}else{digitalWrite(slave2.output1, LOW);slave2.motorDownRunning=0;}
-        if (s.motorUpRunning)  {digitalWrite(slave2.output2, HIGH);slave2.motorUpRunning=1;}else{digitalWrite(slave2.output2, LOW);slave2.motorUpRunning=0;}  
-        if (s.motorDownRunning){digitalWrite(slave3.output1, HIGH);slave3.motorDownRunning=1;}else{digitalWrite(slave3.output1, LOW);slave3.motorDownRunning=0;}
-        if (s.motorUpRunning)  {digitalWrite(slave3.output2, HIGH);slave3.motorUpRunning=1;}else{digitalWrite(slave3.output2, LOW);slave3.motorUpRunning=0;}  
-        if (s.motorDownRunning){digitalWrite(slave4.output1, HIGH);slave4.motorDownRunning=1;}else{digitalWrite(slave4.output1, LOW);slave4.motorDownRunning=0;}
-        if (s.motorUpRunning)  {digitalWrite(slave4.output2, HIGH);slave4.motorUpRunning=1;}else{digitalWrite(slave4.output2, LOW);slave4.motorUpRunning=0;}    
-    } else if (!masterLock)
+    if (!masterLock) 
     {
         if (s.motorDownRunning){digitalWrite(s.output1, HIGH);}else{digitalWrite(s.output1, LOW);}
         if (s.motorUpRunning)  {digitalWrite(s.output2, HIGH);}else{digitalWrite(s.output2, LOW);}    
     }
-    
-        *arg=s;
+
+    if (state==0){
+        digitalWrite(slave1.output1, LOW);slave1.motorDownRunning=0;
+        digitalWrite(slave2.output1, LOW);slave2.motorDownRunning=0;
+        digitalWrite(slave3.output1, LOW);slave3.motorDownRunning=0;
+        digitalWrite(slave4.output1, LOW);slave4.motorDownRunning=0;   
+        digitalWrite(slave1.output2, LOW);slave1.motorUpRunning=0;
+        digitalWrite(slave2.output2, LOW);slave2.motorUpRunning=0;
+        digitalWrite(slave3.output2, LOW);slave3.motorUpRunning=0;
+        digitalWrite(slave4.output2, LOW);slave4.motorUpRunning=0;
+      }
+    if (state==1){
+        digitalWrite(slave1.output1, LOW);slave1.motorDownRunning=0;
+        digitalWrite(slave2.output1, LOW);slave2.motorDownRunning=0;
+        digitalWrite(slave3.output1, LOW);slave3.motorDownRunning=0;
+        digitalWrite(slave4.output1, LOW);slave4.motorDownRunning=0;
+        digitalWrite(slave1.output2, HIGH);slave1.motorUpRunning=1;
+        digitalWrite(slave2.output2, HIGH);slave2.motorUpRunning=1;
+        digitalWrite(slave3.output2, HIGH);slave3.motorUpRunning=1;
+        digitalWrite(slave4.output2, HIGH);slave4.motorUpRunning=1;
+      }
+    if (state==2){
+        digitalWrite(slave1.output1, HIGH);slave1.motorDownRunning=1;
+        digitalWrite(slave2.output1, HIGH);slave2.motorDownRunning=1;
+        digitalWrite(slave3.output1, HIGH);slave3.motorDownRunning=1;
+        digitalWrite(slave4.output1, HIGH);slave4.motorDownRunning=1;
+        digitalWrite(slave1.output2, LOW);slave1.motorUpRunning=0;
+        digitalWrite(slave2.output2, LOW);slave2.motorUpRunning=0;
+        digitalWrite(slave3.output2, LOW);slave3.motorUpRunning=0;
+        digitalWrite(slave4.output2, LOW);slave4.motorUpRunning=0;
+      }
+      
+      *arg=s;
   
 }    
